@@ -1,0 +1,22 @@
+<section class="card">
+  <h3>Categories</h3>
+  {{#if user}}
+  <form method="POST" action="/categories" class="row">
+    <input type="text" name="name" placeholder="New category" required>
+    <button>Add</button>
+  </form>
+  {{/if}}
+  <ul class="plain">
+    {{#each categories}}
+      <li class="row wrap">
+        <form method="POST" action="/categories/{{this.id}}" class="row">
+          <input type="text" name="name" value="{{this.name}}" required>
+          <button>Rename</button>
+        </form>
+        <form method="POST" action="/categories/{{this.id}}/delete">
+          <button class="danger">Delete</button>
+        </form>
+      </li>
+    {{/each}}
+  </ul>
+</section>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{title}} | WebDevFun</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- simple CSS per CSS lecture (flex/grid concepts) --> {{!--  [oai_citation:17‡WebDevFun-03-css-v1.1-2025.pdf](file-service://file-AbPV5FZFydr5T3VitBbAY2) --}}
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+ <header class="container header">
+  <h1>One-Page Tasks</h1>
+  <nav class="menu">
+    <a href="#home">Home</a>
+    <a href="#list">List</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  {{> authBar}}
+</header>
+
+  <main class="container">
+    {{> flash}}
+    {{{body}}}
+  </main>
+
+  <footer class="container small">
+    <p>Copy Right © Amrou Almfalani 2025</p>
+  </footer>
+  <script src="/js/main.js" defer></script>
+</body>
+</html>

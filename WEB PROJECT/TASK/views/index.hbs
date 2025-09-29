@@ -1,0 +1,37 @@
+<section id="home">{{> flash}}
+  <div class="hero card">
+    <h2>Welcome</h2>
+    <p class="muted">Manage your tasks with categories. Login to get started.</p>
+  </div>
+</section>
+
+<section id="list">
+  {{> addTaskForm}}
+  {{> taskList}}
+  {{#if pages}}
+  <nav class="pagination">
+    {{#each (range 1 pages)}}
+      <a class="{{#if (eq ../page this)}}active{{/if}}" href="/?page={{this}}#list">{{this}}</a>
+    {{/each}}
+  </nav>
+  {{/if}}
+
+  {{> categoryManager}}
+</section>
+
+<section id="about" class="card">
+  <h2>About</h2>
+  <p>This project follows MVC with Express + Handlebars, SQLite3 and secure forms (prepared statements & hashed passwords).</p>
+</section>
+
+<section id="contact" class="card">
+  <h2>Contact</h2>
+  <p>Made for TGWK12. Demo admin: <code>admin / wdf#2025</code>.</p>
+</section>
+
+{{#if user}}
+<section id="admin" class="card">
+  <h2>Admin — Users</h2>
+  {{> userManager}}
+</section>
+{{/if}}
