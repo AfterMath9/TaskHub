@@ -1,8 +1,0 @@
-<section class="container card">
-  <h2>Task detail</h2>
-  <p><strong>Title:</strong> {{task.title}}</p>
-  <p><strong>Category:</strong> {{#if task.category}}{{task.category}}{{else}}—{{/if}}</p>
-  <p><strong>Status:</strong> {{#if (eq task.is_done 1)}}Done{{else}}Todo{{/if}}</p>
-  <p><strong>Created:</strong> {{task.created_at}}</p>
-  <p><a href="/#list">← Back to list</a></p>
-</section>
