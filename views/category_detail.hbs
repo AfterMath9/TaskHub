@@ -1,0 +1,11 @@
+<h1>Category: {{cat.name}}</h1>
+<p class="muted">Tasks in this category</p>
+<ul class="task-list">
+  {{#each tasks}}
+    <li class="task {{#if completed}}done{{/if}}">
+      <div class="row"><strong>{{title}}</strong></div>
+      <p>{{description}}</p>
+      <span class="muted">Created by: {{#if creator_email}}{{creator_email}}{{else}}unknown{{/if}}</span>
+    </li>
+  {{/each}}
+</ul>

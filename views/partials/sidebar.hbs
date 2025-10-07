@@ -1,0 +1,46 @@
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <a href="/">
+      <img src="/assets/logo.png" alt="TaskHub" class="sidebar-logo">
+    </a>
+  </div>
+
+  {{#if user}}
+    <a href="/account" class="sidebar-profile">
+      <div class="sidebar-avatar">
+        {{#if user.avatar_path}}
+          <img src="{{user.avatar_path}}" alt="{{displayName user}}">
+        {{else}}
+          <span>{{initials user}}</span>
+        {{/if}}
+      </div>
+      <div class="sidebar-profile-meta">
+        <p class="sidebar-profile-name">{{#if user.name}}{{user.name}}{{else}}{{displayName user}}{{/if}}</p>
+        <p class="sidebar-profile-role {{#if (eq user.role "admin")}}role-admin{{else}}role-user{{/if}}">{{user.role}}</p>
+            <div class="sidebar-footer">
+      <form method="POST" action="/auth/logout" class="sidebar-link-form">
+        <button type="submit">Logout</button>
+      </form>
+    </div>
+      </div>
+    </a>
+
+    <nav class="sidebar-section">
+      <p class="sidebar-title">General</p>
+      <a class="sidebar-link" href="/">Home</a>
+      <a class="sidebar-link" href="/list">Workshops</a>
+      <a class="sidebar-link" href="/about">About</a>
+      <a class="sidebar-link" href="/contact">Contact</a>
+      {{#if (eq user.role "admin")}}
+        <a class="sidebar-link" href="/admin/users">Users</a>
+      {{/if}}
+    </nav>
+
+
+  {{else}}
+    <nav class="sidebar-section">
+      <a class="sidebar-link" href="/login">Login</a>
+      <a class="sidebar-link" href="/register">Register</a>
+    </nav>
+  {{/if}}
+</aside>

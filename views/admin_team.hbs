@@ -1,0 +1,62 @@
+<h1>Manage Team</h1>
+
+<section class="glass-card admin-form">
+  <h2>Add Team Member</h2>
+  <form method="POST" action="/admin/team" class="admin-form-grid">
+    <label>
+      <span>Name</span>
+      <input type="text" name="name" placeholder="Full name" required minlength="3">
+    </label>
+    <label>
+      <span>Role</span>
+      <input type="text" name="role" placeholder="Primary role" required minlength="2">
+    </label>
+    <label class="wide">
+      <span>Bio</span>
+      <textarea name="bio" placeholder="Short background" required minlength="10"></textarea>
+    </label>
+    <label>
+      <span>Avatar URL (optional)</span>
+      <input type="text" name="avatar_path" placeholder="https://example.com/avatar.jpg">
+    </label>
+    <div class="form-actions">
+      <button class="btn" type="submit">Add Member</button>
+    </div>
+  </form>
+</section>
+
+{{#if members.length}}
+  <section class="admin-card-grid">
+    {{#each members}}
+      <article class="glass-card admin-card">
+        <form method="POST" action="/admin/team/{{id}}/update" class="admin-card-form">
+          <h3>{{name}}</h3>
+          <label>
+            <span>Name</span>
+            <input type="text" name="name" value="{{name}}" required>
+          </label>
+          <label>
+            <span>Role</span>
+            <input type="text" name="role" value="{{role}}" required>
+          </label>
+          <label>
+            <span>Bio</span>
+            <textarea name="bio" required>{{bio}}</textarea>
+          </label>
+          <label>
+            <span>Avatar URL</span>
+            <input type="text" name="avatar_path" value="{{avatar_path}}">
+          </label>
+          <div class="action-buttons">
+            <button class="btn btn-ghost" type="submit">Save changes</button>
+          </div>
+        </form>
+        <form method="POST" action="/admin/team/{{id}}/delete" onsubmit="return confirm('Remove {{name}} from the team?');">
+          <button class="btn btn-danger" type="submit">Delete</button>
+        </form>
+      </article>
+    {{/each}}
+  </section>
+{{else}}
+  <p class="muted">No team members recorded yet.</p>
+{{/if}}

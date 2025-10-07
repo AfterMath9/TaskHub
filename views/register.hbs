@@ -1,0 +1,27 @@
+<h1>Sign Up</h1>
+<section class="auth-grid">
+  <div class="auth-card glass-card">
+    <form method="POST" action="/auth/register" id="registerForm" onsubmit="return Validate.register(this);">
+      <label>Full Name <span class="muted small">(optional)</span></label>
+      <input type="text" name="name" placeholder="Alex Johnson" maxlength="60">
+      <label>Nickname <span class="muted small">(optional)</span></label>
+      <input type="text" name="nickname" placeholder="Alex" maxlength="30">
+      <label>Username</label>
+      <input type="text" name="username" placeholder="yourusername" required minlength="3" maxlength="20">
+      <label>Email</label>
+      <input type="email" name="email" placeholder="you@example.com" required>
+      <label>Phone</label>
+      <input type="tel" name="phone" placeholder="+46701234567" required>
+      <label>Password</label>
+      <input type="password" name="password" placeholder="Min 8, upper/lower/number/symbol" required minlength="8">
+      <label>Repeat Password</label>
+      <input type="password" name="confirm" placeholder="Repeat password" required minlength="8">
+      <button class="btn w-100" type="submit">Create account</button>
+      <p class="muted">Already registered? <a href="/login">Login</a>.</p>
+    </form>
+  </div>
+  <div class="auth-side glass-card">
+    <h2>Create an account</h2>
+    <p>Register to create private tasks. Admin primary tasks are visible to everyone.</p>
+  </div>
+</section>

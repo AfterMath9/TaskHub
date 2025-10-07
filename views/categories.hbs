@@ -1,0 +1,42 @@
+<header class="categories-header">
+  <div>
+    <h1>Categories</h1>
+    <p class="muted small">Browse {{pagination.total}} categories to organise your tasks.</p>
+  </div>
+</header>
+
+{{#if cats}}
+  <section class="categories-grid">
+    {{#each cats}}
+      <article class="category-card glass-card">
+        <h2>{{name}}</h2>
+        <p class="muted small">Tap to view tasks in this category.</p>
+        <a class="btn btn-ghost" href="/categories/{{id}}">View tasks</a>
+      </article>
+    {{/each}}
+  </section>
+{{else}}
+  <p>No categories yet.</p>
+{{/if}}
+
+<nav class="pagination" aria-label="Categories pagination">
+  {{#if pagination.hasPrev}}
+    <a class="page-link" href="/categories?page={{minus pagination.page 1}}" aria-label="Previous page">« Prev</a>
+  {{else}}
+    <span class="page-link disabled">« Prev</span>
+  {{/if}}
+
+  {{#each pageNumbers}}
+    {{#if (eq this ../pagination.page)}}
+      <span class="page-link active" aria-current="page">{{this}}</span>
+    {{else}}
+      <a class="page-link" href="/categories?page={{this}}">{{this}}</a>
+    {{/if}}
+  {{/each}}
+
+  {{#if pagination.hasNext}}
+    <a class="page-link" href="/categories?page={{plus pagination.page 1}}" aria-label="Next page">Next »</a>
+  {{else}}
+    <span class="page-link disabled">Next »</span>
+  {{/if}}
+</nav>

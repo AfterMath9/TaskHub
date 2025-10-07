@@ -1,0 +1,17 @@
+<h1>Login</h1>
+<section class="auth-grid">
+  <div class="auth-card glass-card">
+    <form method="POST" action="/auth/login" id="loginForm" onsubmit="return Validate.login(this);">
+      <label>Username or Email</label>
+      <input type="text" name="identifier" placeholder="username or you@example.com" required>
+      <label>Password</label>
+      <input type="password" name="password" placeholder="••••••••" required minlength="8">
+      <button class="btn w-100" type="submit">Login</button>
+      <p class="muted">No account? <a href="/register">Create one</a>.</p>
+    </form>
+  </div>
+  <div class="auth-side glass-card">
+    <h2>Welcome back</h2>
+    <p>Sign in to manage your tasks.</p>
+  </div>
+</section>

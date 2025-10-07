@@ -1,0 +1,116 @@
+<h1>Users List</h1>
+
+<section class="glass-card user-admin-card">
+  <h2>Create New User</h2>
+  <form method="POST" action="/admin/users" class="user-form">
+    <div class="form-row">
+      <div class="form-field">
+        <label>Name</label>
+        <input type="text" name="name" placeholder="Full name" maxlength="60">
+      </div>
+      <div class="form-field">
+        <label>Nickname</label>
+        <input type="text" name="nickname" placeholder="Display nickname" maxlength="30">
+      </div>
+      <div class="form-field">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="newusername" required minlength="3" maxlength="20">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-field">
+        <label>Email</label>
+        <input type="email" name="email" placeholder="user@example.com" required>
+      </div>
+      <div class="form-field">
+        <label>Phone</label>
+        <input type="tel" name="phone" placeholder="+46701234567" required>
+      </div>
+      <div class="form-field">
+        <label>Role</label>
+        <select name="role" required>
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-field">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Min 8, upper/lower/number/symbol" required minlength="8">
+      </div>
+      <div class="form-field align-end">
+        <button class="btn" type="submit">Create User</button>
+      </div>
+    </div>
+  </form>
+</section>
+
+<table class="table glass-card user-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Avatar</th>
+      <th>Name</th>
+      <th>Nickname</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Role</th>
+      <th>New Password</th>
+      <th>Created</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each users}}
+      <form id="user-{{id}}-form" method="POST" action="/admin/users/{{id}}/update"></form>
+      <tr>
+        <td data-label="ID">{{id}}</td>
+        <td data-label="Avatar">
+          {{#if avatar_path}}
+            <img src="{{avatar_path}}" alt="Avatar for {{username}}" class="table-avatar">
+          {{else}}
+            <span class="table-avatar table-avatar-fallback">{{initials this}}</span>
+          {{/if}}
+        </td>
+        <td data-label="Name">
+          <input form="user-{{id}}-form" type="text" name="name" value="{{name}}" maxlength="60">
+        </td>
+        <td data-label="Nickname">
+          <input form="user-{{id}}-form" type="text" name="nickname" value="{{nickname}}" maxlength="30">
+        </td>
+        <td data-label="Username">
+          <input form="user-{{id}}-form" type="text" name="username" value="{{username}}" required minlength="3" maxlength="20">
+        </td>
+        <td data-label="Email">
+          <input form="user-{{id}}-form" type="email" name="email" value="{{email}}" required>
+        </td>
+        <td data-label="Phone">
+          <input form="user-{{id}}-form" type="tel" name="phone" value="{{phone}}" required>
+        </td>
+        <td data-label="Role">
+          <div class="role-cell">
+            <span class="role-tag {{#if (eq role 'admin')}}role-admin{{else}}role-user{{/if}}">{{role}}</span>
+            <select form="user-{{id}}-form" name="role">
+              <option value="user" {{#if (eq role 'user')}}selected{{/if}}>User</option>
+              <option value="admin" {{#if (eq role 'admin')}}selected{{/if}}>Admin</option>
+            </select>
+          </div>
+        </td>
+        <td data-label="New Password">
+          <input form="user-{{id}}-form" type="password" name="password" placeholder="Leave blank to keep">
+        </td>
+        <td data-label="Created">{{created_at}}</td>
+        <td data-label="Actions" class="actions">
+          <div class="action-buttons">
+            <button form="user-{{id}}-form" class="btn btn-ghost" type="submit">Save</button>
+            <form method="POST" action="/admin/users/{{id}}/delete" onsubmit="return confirm('Delete user {{username}}?')">
+              <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

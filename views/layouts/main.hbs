@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{#if title}}{{title}} · {{/if}}TaskHub</title>
+  <link rel="stylesheet" href="/css/global.css">
+  {{#if pageCss}}<link rel="stylesheet" href="{{pageCss}}">{{/if}}
+  <script defer src="/js/Validate.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    {{> sidebar}}
+    <div class="app-content">
+      {{#if error}}<div class="flash flash-error">{{error}}</div>{{/if}}
+      {{#if success}}<div class="flash flash-success">{{success}}</div>{{/if}}
+      <main class="container glass-card">
+        {{{body}}}
+      </main>
+      <footer class="footer">Developed by Amrou &amp; Hamid</footer>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<header class="account-header">
+  <div class="avatar-preview">
+    {{#if profile.avatar_path}}
+      <img src="{{profile.avatar_path}}" alt="{{profile.username}} avatar" class="avatar-img">
+    {{else}}
+      <span class="avatar-fallback">{{initials profile}}</span>
+    {{/if}}
+  </div>
+  <div>
+    <h1>Account Settings</h1>
+    <p class="muted">Manage your personal details and security preferences.</p>
+    <p class="muted small">Signed in as {{displayName profile}} ({{profile.username}})</p>
+    <p class="muted small">Member since {{profile.created_at}}</p>
+  </div>
+</header>
+
+<section class="account-grid">
+  <form class="glass-card account-form" method="POST" action="/account" enctype="multipart/form-data">
+    <h2>Profile</h2>
+    <div class="form-row">
+      <div class="form-field">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" value="{{profile.name}}" maxlength="60" placeholder="Your full name">
+      </div>
+      <div class="form-field">
+        <label for="nickname">Nickname</label>
+        <input type="text" id="nickname" name="nickname" value="{{profile.nickname}}" maxlength="30" placeholder="Display nickname">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-field">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" value="{{profile.username}}" required minlength="3" maxlength="20">
+      </div>
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="{{profile.email}}" required>
+      </div>
+      <div class="form-field">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" name="phone" value="{{profile.phone}}" required>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-field">
+        <label for="avatar">Profile Image (PNG or JPG, max 12MB)</label>
+        <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
+      </div>
+      <div class="form-field checkbox-field">
+        {{#if profile.avatar_path}}
+          <label><input type="checkbox" name="remove_avatar" value="1"> Remove current image</label>
+        {{else}}
+          <span class="muted small">No image uploaded yet.</span>
+        {{/if}}
+      </div>
+    </div>
+    <h2>Security</h2>
+    <div class="form-row">
+      <div class="form-field">
+        <label for="password">New Password</label>
+        <input type="password" id="password" name="password" placeholder="Leave blank to keep current" minlength="8">
+      </div>
+      <div class="form-field">
+        <label for="confirm">Confirm Password</label>
+        <input type="password" id="confirm" name="confirm" placeholder="Confirm new password" minlength="8">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn" type="submit">Save Changes</button>
+    </div>
+  </form>
+
+  <div class="glass-card account-help">
+    <h2>Tips</h2>
+    <ul>
+      <li>Use a unique username so your teammates can find you.</li>
+      <li>Nicknames appear in menus if set.</li>
+      <li>Passwords must include upper, lower, number, and symbol.</li>
+      <li>Remove your avatar or upload a new image at any time.</li>
+    </ul>
+    {{#if profile.avatar_path}}
+      <form method="POST" action="/account/avatar/delete" onsubmit="return confirm('Remove your profile image?');">
+        <button class="btn btn-ghost" type="submit">Remove Avatar</button>
+      </form>
+    {{/if}}
+  </div>
+</section>

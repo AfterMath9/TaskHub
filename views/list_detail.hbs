@@ -1,0 +1,26 @@
+<article class="workshop-detail glass-card">
+  <a href="/list" class="back-link">← Back to workshops</a>
+  <h1>{{workshop.title}}</h1>
+  <div class="workshop-detail-meta">
+    <span>{{workshop.start_date}}</span>
+    <span>{{workshop.location}}</span>
+    <span>{{workshop.capacity}} seats</span>
+  </div>
+  <p class="lead">{{workshop.summary}}</p>
+  <p>{{workshop.description}}</p>
+</article>
+
+{{#if suggestions.length}}
+  <section class="suggestions">
+    <h2>More sessions you might like</h2>
+    <div class="workshops-grid">
+      {{#each suggestions}}
+        <article class="workshop-card glass-card">
+          <h3>{{title}}</h3>
+          <p>{{summary}}</p>
+          <a class="btn btn-ghost" href="/list/{{slug}}">View details</a>
+        </article>
+      {{/each}}
+    </div>
+  </section>
+{{/if}}

@@ -1,0 +1,35 @@
+<nav class="nav glass-card">
+  <div class="nav-left">
+    <a class="brand" href="/">TaskHub</a>
+    {{#if user}}
+      <a href="/">Home</a>
+      <a href="/list">List</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+      {{#if (eq user.role "admin")}}
+        <a href="/admin/users">Users</a>
+      {{/if}}
+    {{/if}}
+  </div>
+  <div class="nav-right">
+    {{#if user}}
+      <a href="/account" class="nav-account">
+        {{#if user.avatar_path}}
+          <img src="{{user.avatar_path}}" alt="{{user.username}} avatar" class="nav-avatar">
+        {{else}}
+          <span class="nav-avatar nav-avatar-fallback">{{initials user}}</span>
+        {{/if}}
+        <span class="nav-account-meta">
+          <span class="nav-account-name">{{displayName user}}</span>
+          <span class="nav-account-role">{{user.role}}</span>
+        </span>
+      </a>
+      <form method="POST" action="/auth/logout">
+        <button class="btn">Logout</button>
+      </form>
+    {{else}}
+      <a class="btn" href="/login">Login</a>
+      <a class="btn btn-ghost" href="/register">Sign Up</a>
+    {{/if}}
+  </div>
+</nav>

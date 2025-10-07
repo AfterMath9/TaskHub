@@ -1,0 +1,159 @@
+<section class="dashboard-grid">
+  <section class="panel glass-card">
+    <header class="panel-header">
+      <h2>Primary Tasks (admin)</h2>
+      <p class="muted small">Visible to everyone.</p>
+    </header>
+
+    {{#if primary.length}}
+      <div class="task-line-stack">
+        {{#each primary}}
+          <details class="task-line {{#if completed}}task-line--done{{else}}task-line--progress{{/if}}">
+            <summary>
+              <div class="task-line-info">
+                <div>
+                  <p class="task-line-title">{{title}}</p>
+                  <p class="task-line-sub">Created {{created_at}}</p>
+                </div>
+                <div class="task-line-tags">
+                  <span class="tag">{{#if category_name}}{{category_name}}{{else}}No category{{/if}}</span>
+                  <span class="tag {{#if completed}}tag-done{{else}}tag-progress{{/if}}">{{#if completed}}Completed{{else}}In Progress{{/if}}</span>
+                </div>
+              </div>
+              {{#if (eq ../user.role "admin")}}
+                <form method="POST" action="/tasks/{{id}}/delete" class="task-line-delete" onsubmit="return confirm('Delete {{title}}?');">
+                  <button class="btn btn-outline" type="submit">Delete</button>
+                </form>
+              {{/if}}
+            </summary>
+
+            {{#if (eq ../user.role "admin")}}
+              <form method="POST" action="/tasks/{{id}}" class="task-line-form">
+                <label>Description
+                  <textarea name="description">{{description}}</textarea>
+                </label>
+                <div class="task-line-form-row">
+                  <label>Status
+                    <label class="toggle">
+                      <input type="checkbox" name="completed" value="1" {{#if completed}}checked{{/if}}>
+                    </label>
+                  </label>
+                  <label>Category
+                    <select name="category_id">
+                      <option value="">No category</option>
+                      {{#each @root.categories}}
+                        <option value="{{id}}" {{#if (eq ../category_id id)}}selected{{/if}}>{{name}}</option>
+                      {{/each}}
+                    </select>
+                  </label>
+                </div>
+                <button class="btn" type="submit">Save changes</button>
+              </form>
+            {{else}}
+              <p class="muted">{{description}}</p>
+              <p class="muted small">By {{creator_email}}</p>
+            {{/if}}
+          </details>
+        {{/each}}
+      </div>
+    {{else}}
+      <p class="muted">No primary tasks yet.</p>
+    {{/if}}
+
+    {{#if (eq user.role "admin")}}
+      <div class="stack-card">
+        <h3>Add Primary Task</h3>
+        <form method="POST" action="/tasks/primary">
+          <input type="text" name="title" placeholder="Task headline" required>
+          <textarea name="description" placeholder="Short description"></textarea>
+          <select name="category_id">
+            <option value="">No category</option>
+            {{#each categories}}
+              <option value="{{id}}">{{name}}</option>
+            {{/each}}
+          </select>
+          <button class="btn" type="submit">Add Task</button>
+        </form>
+      </div>
+    {{/if}}
+  </section>
+
+  <section class="panel glass-card">
+    <header class="panel-header">
+      <h2>My Tasks</h2>
+      <p class="muted small">Your Personal Tasks.</p>
+    </header>
+
+    <div class="stack-card">
+      <form method="POST" action="/tasks">
+        <input type="text" name="title" placeholder="New task title" required>
+        <textarea name="description" placeholder="Description (optional)"></textarea>
+        <select name="category_id">
+          <option value="">No category</option>
+          {{#each categories}}
+            <option value="{{id}}">{{name}}</option>
+          {{/each}}
+        </select>
+        <button class="btn" type="submit">Create</button>
+      </form>
+    </div>
+
+    {{#if mine.length}}
+      <div class="task-line-stack">
+        {{#each mine}}
+          <details class="task-line {{#if completed}}task-line--done{{else}}task-line--progress{{/if}}">
+            <summary>
+              <div class="task-line-info">
+                <div>
+                  <p class="task-line-title">{{title}}</p>
+                  <p class="task-line-sub">Created {{created_at}}</p>
+                </div>
+                <div class="task-line-tags">
+                  <span class="tag">{{#if category_name}}{{category_name}}{{else}}No category{{/if}}</span>
+                  <span class="tag {{#if completed}}tag-done{{else}}tag-progress{{/if}}">{{#if completed}}Completed{{else}}In Progress{{/if}}</span>
+                </div>
+              </div>
+              <form method="POST" action="/tasks/{{id}}/delete" class="task-line-delete" onsubmit="return confirm('Delete {{title}}?');">
+                <button class="btn btn-outline" type="submit">Delete</button>
+              </form>
+            </summary>
+
+            <form method="POST" action="/tasks/{{id}}" class="task-line-form">
+              <label>Description
+                <textarea name="description">{{description}}</textarea>
+              </label>
+              <div class="task-line-form-row">
+                <label>Status
+                  <label class="toggle">
+                    <input type="checkbox" name="completed" value="1" {{#if completed}}checked{{/if}}>
+                  </label>
+                </label>
+                <label>Category
+                  <select name="category_id">
+                    <option value="">No category</option>
+                    {{#each @root.categories}}
+                      <option value="{{id}}" {{#if (eq ../category_id id)}}selected{{/if}}>{{name}}</option>
+                    {{/each}}
+                  </select>
+                </label>
+              </div>
+              <button class="btn" type="submit">Save changes</button>
+            </form>
+          </details>
+        {{/each}}
+      </div>
+
+      <div class="task-pagination">
+        {{#if (gt pagination.page 1)}}
+          <a class="btn btn-ghost" href="/?p={{minus pagination.page 1}}">Previous</a>
+        {{/if}}
+        <span class="muted">Page {{pagination.page}} of {{pagination.pages}}</span>
+        {{#if (lt pagination.page pagination.pages)}}
+          <a class="btn btn-ghost" href="/?p={{plus pagination.page 1}}">Next</a>
+        {{/if}}
+      </div>
+    {{else}}
+      <p class="muted">You have no tasks yet.</p>
+    {{/if}}
+  </section>
+</section>

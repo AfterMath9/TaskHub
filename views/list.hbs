@@ -1,0 +1,132 @@
+<header class="list-header">
+  <div>
+    <h1>Upcoming Workshops</h1>
+    <p class="muted small">Choose a session to level up your workflow.</p>
+  </div>
+</header>
+
+{{#if (eq user.role "admin")}}
+  <section class="glass-card admin-form">
+    <h2>Create Workshop</h2>
+    <form method="POST" action="/admin/workshops" class="admin-form-grid">
+      <label>
+        <span>Title</span>
+        <input type="text" name="title" placeholder="Workshop title" required minlength="3">
+      </label>
+      <label>
+         <span>URL handle (optional)</span>
+        <input type="text" name="slug" placeholder="ex: intro-to-html">
+      </label>
+      <label>
+        <span>Summary</span>
+        <input type="text" name="summary" placeholder="Short headline" required minlength="10">
+      </label>
+      <label class="wide">
+        <span>Description</span>
+        <textarea name="description" placeholder="Full session description" required minlength="20"></textarea>
+      </label>
+      <label>
+        <span>Start Date</span>
+        <input type="text" name="start_date" placeholder="e.g. April 2, 2025" required>
+      </label>
+      <label>
+        <span>Location</span>
+        <input type="text" name="location" placeholder="Room / online link" required>
+      </label>
+      <label>
+        <span>Capacity</span>
+        <input type="number" name="capacity" placeholder="25" min="1" required>
+      </label>
+      <div class="form-actions">
+        <button class="btn" type="submit">Create Workshop</button>
+      </div>
+    </form>
+  </section>
+{{/if}}
+
+{{#if workshops.length}}
+  <section class="workshops-grid">
+    {{#each workshops}}
+      <article class="workshop-card glass-card">
+        {{#if (eq ../user.role "admin")}}
+          <form method="POST" action="/admin/workshops/{{id}}/update" class="admin-card-form">
+            <div class="workshop-meta">
+              <span>ID {{id}}</span>
+              <span>{{start_date}}</span>
+              <span>{{location}}</span>
+            </div>
+            <label>
+              <span>URL handle</span>
+              <input type="text" name="slug" value="{{slug}}" required>
+            </label>
+            <label>
+              <span>Title</span>
+              <input type="text" name="title" value="{{title}}" required>
+            </label>
+            <label>
+              <span>Summary</span>
+              <input type="text" name="summary" value="{{summary}}" required>
+            </label>
+            <label>
+              <span>Description</span>
+              <textarea name="description" required>{{description}}</textarea>
+            </label>
+            <div class="admin-card-row">
+              <label>
+                <span>Start Date</span>
+                <input type="text" name="start_date" value="{{start_date}}" required>
+              </label>
+              <label>
+                <span>Location</span>
+                <input type="text" name="location" value="{{location}}" required>
+              </label>
+              <label>
+                <span>Capacity</span>
+                <input type="number" name="capacity" value="{{capacity}}" min="1" required>
+              </label>
+            </div>
+            <div class="action-buttons">
+              <button class="btn btn-ghost" type="submit">Save</button>
+              <a class="btn" href="/list/{{slug}}">Preview</a>
+            </div>
+          </form>
+          <form method="POST" action="/admin/workshops/{{id}}/delete" onsubmit="return confirm('Delete workshop {{title}}?');">
+            <button class="btn btn-danger" type="submit">Delete</button>
+          </form>
+        {{else}}
+          <div class="workshop-meta">
+            <span>{{start_date}}</span>
+            <span>{{location}}</span>
+          </div>
+          <h2>{{title}}</h2>
+          <p>{{summary}}</p>
+          <a class="btn btn-ghost" href="/list/{{slug}}">View details</a>
+        {{/if}}
+      </article>
+    {{/each}}
+  </section>
+{{else}}
+  <p>No workshops available yet.</p>
+{{/if}}
+
+<nav class="pagination" aria-label="Workshops pagination">
+  {{#if pagination.hasPrev}}
+    <a class="page-link" href="/list?page={{minus pagination.page 1}}" aria-label="Previous page">« Prev</a>
+  {{else}}
+    <span class="page-link disabled">« Prev</span>
+  {{/if}}
+
+  {{#each pageNumbers}}
+    {{#if (eq this ../pagination.page)}}
+      <span class="page-link active" aria-current="page">{{this}}</span>
+    {{else}}
+      <a class="page-link" href="/list?page={{this}}">{{this}}</a>
+    {{/if}}
+  {{/each}}
+
+  {{#if pagination.hasNext}}
+    <a class="page-link" href="/list?page={{plus pagination.page 1}}" aria-label="Next page">Next »</a>
+  {{else}}
+    <span class="page-link disabled">Next »</span>
+  {{/if}}
+</nav>

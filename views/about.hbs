@@ -1,0 +1,101 @@
+<section class="about-hero glass-card">
+  <div>
+    <h1>About TaskHub</h1>
+    <p class="muted">We coordinate workshops, coaching, and community support so every learner can plan, prioritise, and ship meaningful projects.</p>
+  </div>
+  <div class="about-stats">
+    <div class="stat">
+      <span class="stat-value">{{metrics.workshops}}</span>
+      <span class="stat-label">Workshops curated</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">{{metrics.members}}</span>
+      <span class="stat-label">Experts on the team</span>
+    </div>
+  </div>
+</section>
+
+<section class="team-section">
+  <header class="team-header">
+    <h2>Meet the team</h2>
+    <p class="muted small">A multidisciplinary crew supporting engineering, design, and operations.</p>
+  </header>
+
+  {{#if (eq user.role "admin")}}
+    <section class="glass-card admin-form">
+      <h3>Add Team Member</h3>
+      <form method="POST" action="/admin/team" class="admin-form-grid">
+        <label>
+          <span>Name</span>
+          <input type="text" name="name" placeholder="Full name" required minlength="3">
+        </label>
+        <label>
+          <span>Role</span>
+          <input type="text" name="role" placeholder="Primary role" required minlength="2">
+        </label>
+        <label class="wide">
+          <span>Bio</span>
+          <textarea name="bio" placeholder="Short background" required minlength="10"></textarea>
+        </label>
+        <label>
+          <span>Avatar URL (optional)</span>
+          <input type="text" name="avatar_path" placeholder="/uploads/avatars/example.jpg or https://...">
+        </label>
+        <div class="form-actions">
+          <button class="btn" type="submit">Add Member</button>
+        </div>
+      </form>
+    </section>
+  {{/if}}
+
+  <div class="team-grid">
+    {{#each team}}
+      <article class="team-card glass-card">
+        {{#if (eq ../user.role "admin")}}
+          <form method="POST" action="/admin/team/{{id}}/update" class="admin-card-form">
+            <div class="team-avatar">
+              {{#if avatar_path}}
+                <img src="{{avatar_path}}" alt="{{name}}" />
+              {{else}}
+                <span>{{initials this}}</span>
+              {{/if}}
+            </div>
+            <label>
+              <span>Name</span>
+              <input type="text" name="name" value="{{name}}" required>
+            </label>
+            <label>
+              <span>Role</span>
+              <input type="text" name="role" value="{{role}}" required>
+            </label>
+            <label>
+              <span>Bio</span>
+              <textarea name="bio" required>{{bio}}</textarea>
+            </label>
+            <label>
+              <span>Avatar URL</span>
+              <input type="text" name="avatar_path" value="{{avatar_path}}">
+            </label>
+            <div class="action-buttons">
+              <button class="btn btn-ghost" type="submit">Save</button>
+            </div>
+          </form>
+          <form method="POST" action="/admin/team/{{id}}/delete" onsubmit="return confirm('Remove {{name}} from the team?');">
+            <button class="btn btn-danger" type="submit">Delete</button>
+          </form>
+        {{else}}
+          <div class="team-avatar">
+            {{#if avatar_path}}
+              <img src="{{avatar_path}}" alt="{{name}}" />
+            {{else}}
+              <span>{{initials this}}</span>
+            {{/if}}
+          </div>
+          <h3>{{name}}</h3>
+          <p class="muted">{{role}}</p>
+          <p>{{bio}}</p>
+        {{/if}}
+      </article>
+    {{/each}}
+  </div>
+</section>

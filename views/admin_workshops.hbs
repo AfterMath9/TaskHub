@@ -1,0 +1,88 @@
+<h1>Manage Workshops</h1>
+
+<section class="glass-card admin-form">
+  <h2>Create Workshop</h2>
+  <form method="POST" action="/admin/workshops" class="admin-form-grid">
+    <label>
+      <span>Title</span>
+      <input type="text" name="title" placeholder="Workshop title" required minlength="3">
+    </label>
+    <label>
+      <span>Slug (optional)</span>
+      <input type="text" name="slug" placeholder="auto-generated from title">
+    </label>
+    <label>
+      <span>Summary</span>
+      <input type="text" name="summary" placeholder="Short headline" required minlength="10">
+    </label>
+    <label class="wide">
+      <span>Description</span>
+      <textarea name="description" placeholder="Full session description" required minlength="20"></textarea>
+    </label>
+    <label>
+      <span>Start Date</span>
+      <input type="text" name="start_date" placeholder="e.g. April 2, 2025" required>
+    </label>
+    <label>
+      <span>Location</span>
+      <input type="text" name="location" placeholder="Room / online link" required>
+    </label>
+    <label>
+      <span>Capacity</span>
+      <input type="number" name="capacity" placeholder="25" min="1" required>
+    </label>
+    <div class="form-actions">
+      <button class="btn" type="submit">Create Workshop</button>
+    </div>
+  </form>
+</section>
+
+{{#if workshops.length}}
+  <section class="admin-card-grid">
+    {{#each workshops}}
+      <article class="glass-card admin-card">
+        <form method="POST" action="/admin/workshops/{{id}}/update" class="admin-card-form">
+          <h3>{{title}}</h3>
+          <label>
+            <span>Slug</span>
+            <input type="text" name="slug" value="{{slug}}" required>
+          </label>
+          <label>
+            <span>Title</span>
+            <input type="text" name="title" value="{{title}}" required>
+          </label>
+          <label>
+            <span>Summary</span>
+            <input type="text" name="summary" value="{{summary}}" required>
+          </label>
+          <label>
+            <span>Description</span>
+            <textarea name="description" required>{{description}}</textarea>
+          </label>
+          <div class="admin-card-row">
+            <label>
+              <span>Start Date</span>
+              <input type="text" name="start_date" value="{{start_date}}" required>
+            </label>
+            <label>
+              <span>Location</span>
+              <input type="text" name="location" value="{{location}}" required>
+            </label>
+            <label>
+              <span>Capacity</span>
+              <input type="number" name="capacity" value="{{capacity}}" min="1" required>
+            </label>
+          </div>
+          <div class="action-buttons">
+            <button class="btn btn-ghost" type="submit">Save changes</button>
+          </div>
+        </form>
+        <form method="POST" action="/admin/workshops/{{id}}/delete" onsubmit="return confirm('Delete workshop {{title}}?');">
+          <button class="btn btn-danger" type="submit">Delete</button>
+        </form>
+      </article>
+    {{/each}}
+  </section>
+{{else}}
+  <p class="muted">No workshops yet. Create one above.</p>
+{{/if}}
