@@ -67,7 +67,7 @@ router.get("/about", ensureAuth, async (req, res) => {
   const teamOffset = (teamPage - 1) * teamPerPage;
 
   const team = await dbh.all(
-    "SELECT id, name, role, bio, avatar_path FROM team_members ORDER BY name ASC LIMIT ? OFFSET ?",
+    "SELECT id, name, role, bio, avatar_path FROM team_members ORDER BY created_at DESC LIMIT ? OFFSET ?",
     [teamPerPage, teamOffset]
   );
   const teamPageNumbers = Array.from({ length: totalPages }, (_v, idx) => idx + 1);

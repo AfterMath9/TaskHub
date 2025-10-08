@@ -211,6 +211,14 @@ a:hover{text-decoration:underline}
   transform:translateY(-1px);
   text-decoration:none;
 }
+.btn-preview{
+  border-color: var(--accent-warm);
+  color:var(--accent-warm);
+}
+.btn-preview:hover{
+  background:rgba(244,216,168,0.15);
+  color:var(--accent-warm);
+}
 
 /* Flash message layout */
 .flash{width:min(1100px,92vw);margin:12px 0;padding:10px 14px;border-radius:12px}

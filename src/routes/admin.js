@@ -250,7 +250,7 @@ router.post("/users/:id/delete", ensureAdmin, async (req, res) => {
 
 router.get("/workshops", ensureAdmin, async (_req, res) => {
   const dbh = await db;
-  const workshops = await dbh.all("SELECT * FROM workshops ORDER BY start_date ASC, created_at DESC");
+  const workshops = await dbh.all("SELECT * FROM workshops ORDER BY created_at DESC");
   res.render("admin_workshops", { title: "Manage Workshops", workshops });
 });
 
