@@ -57,19 +57,39 @@ router.get("/contact", ensureAuth, (req, res) => {
 });
 router.get("/about", ensureAuth, async (req, res) => {
   const dbh = await db;
-  const team = await dbh.all("SELECT name, role, bio, avatar_path FROM team_members ORDER BY name ASC");
   const { total: totalWorkshops } = await dbh.get("SELECT COUNT(*) AS total FROM workshops");
   const { total: totalMembers } = await dbh.get("SELECT COUNT(*) AS total FROM team_members");
+
+  const teamPerPage = 4;
+  const requestedPage = Math.max(1, parseInt(req.query.teamPage || "1", 10));
+  const totalPages = Math.max(1, Math.ceil(totalMembers / teamPerPage));
+  const teamPage = Math.min(requestedPage, totalPages);
+  const teamOffset = (teamPage - 1) * teamPerPage;
+
+  const team = await dbh.all(
+    "SELECT id, name, role, bio, avatar_path FROM team_members ORDER BY name ASC LIMIT ? OFFSET ?",
+    [teamPerPage, teamOffset]
+  );
+  const teamPageNumbers = Array.from({ length: totalPages }, (_v, idx) => idx + 1);
   res.render("about", {
     title: "About",
     team,
-    metrics: { workshops: totalWorkshops, members: totalMembers }
+    metrics: { workshops: totalWorkshops, members: totalMembers },
+    teamPagination: {
+      page: teamPage,
+      pages: totalPages,
+      perPage: teamPerPage,
+      total: totalMembers,
+      hasPrev: teamPage > 1,
+      hasNext: teamPage < totalPages,
+      pageNumbers: teamPageNumbers
+    }
   });
 });
 
 router.get("/list", ensureAuth, async (req, res) => {
   const dbh = await db;
-  const perPage = 3;
+  const perPage = 4;
   const page = Math.max(1, parseInt(req.query.page || "1", 10));
   const { total } = await dbh.get("SELECT COUNT(*) AS total FROM workshops");
   const pages = Math.max(1, Math.ceil(total / perPage));
@@ -77,7 +97,7 @@ router.get("/list", ensureAuth, async (req, res) => {
   const offset = (currentPage - 1) * perPage;
 
   const workshops = await dbh.all(
-    "SELECT slug, title, summary, start_date, location FROM workshops ORDER BY start_date LIMIT ? OFFSET ?",
+    "SELECT id, slug, title, summary, description, start_date, location, capacity FROM workshops ORDER BY start_date LIMIT ? OFFSET ?",
     [perPage, offset]
   );
 

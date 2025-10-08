@@ -65,7 +65,7 @@ app.use((req, res, next) => {
   next();
 });
 
-/* ---------- Routes ---------- */
+/*  Routes  */
 // Mount route groups by feature area for easier maintenance.
 app.use("/", pageRoutes);
 app.use("/auth", authRoutes);
@@ -76,7 +76,8 @@ app.use("/account", accountRoutes);
 /* 404 */
 app.use((req, res) => res.status(404).send("Not found"));
 
-// Ensure schema + admin seed are ready prior to serving traffic.
+
+/* Start server */
 await ensureAdminSeeded();
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`✅ http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Runing on http://localhost:${PORT}`));

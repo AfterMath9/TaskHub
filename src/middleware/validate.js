@@ -1,5 +1,6 @@
 import validator from "validator";
 
+// Checks the register form server-side before creating the user.
 export function validateRegister(req, res, next) { // username, email, phone, password, confirm, name, nickname
   const { username, email, phone, password, confirm, name, nickname } = req.body;
   const errors = [];
@@ -22,6 +23,7 @@ export function validateRegister(req, res, next) { // username, email, phone, pa
   next();
 }
 
+// Login only needs basic checks, since auth handles the rest.
 export function validateLogin(req, res, next) { // identifier can be username or email
   const { identifier, password } = req.body;
   const input = (identifier || "").trim();

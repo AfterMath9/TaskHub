@@ -1,6 +1,8 @@
+<!-- Simple login page -->
 <h1>Login</h1>
 <section class="auth-grid">
   <div class="auth-card glass-card">
+    <!-- Login form uses the Validate helper before submit -->
     <form method="POST" action="/auth/login" id="loginForm" onsubmit="return Validate.login(this);">
       <label>Username or Email</label>
       <input type="text" name="identifier" placeholder="username or you@example.com" required>

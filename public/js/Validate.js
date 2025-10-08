@@ -1,10 +1,26 @@
+// I keep client-side form checks in this little helper object.
 const Validate = {
-  email(s){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((s||"").trim()); },
-  phone(s){ return /^\+?\d{7,15}$/.test((s||"").trim()); },
-  username(s){ return /^[a-zA-Z0-9_]{3,20}$/.test((s||"").trim()); },
-  strong(p){
-    return p.length>=8 && /[A-Z]/.test(p) && /[a-z]/.test(p) && /\d/.test(p) && /[!@#$%^&*(),.?":{}|<>_\-]/.test(p);
+  // Simple email pattern check.
+  email(s){
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((s||"").trim());
   },
+  // Accept phone numbers with optional + and 7-15 digits.
+  phone(s){
+    return /^\+?\d{7,15}$/.test((s||"").trim());
+  },
+  // Username needs to be alphanumeric/underscore, 3-20 chars.
+  username(s){
+    return /^[a-zA-Z0-9_]{3,20}$/.test((s||"").trim());
+  },
+  // Password needs different character classes.
+  strong(p){
+    return p.length>=8 &&
+      /[A-Z]/.test(p) &&
+      /[a-z]/.test(p) &&
+      /\d/.test(p) &&
+      /[!@#$%^&*(),.?":{}|<>_\-]/.test(p);
+  },
+  // Validate the register form before sending it off.
   register(form){
     const username = form.username.value;
     const email = form.email.value;
@@ -22,9 +38,13 @@ const Validate = {
     if(nickname.length > 30) errors.push("Nickname too long (max 30).");
     if(!Validate.strong(pw)) errors.push("Password too weak.");
     if(pw !== cf) errors.push("Passwords do not match.");
-    if(errors.length){ alert(errors.join("\n")); return false; }
+    if(errors.length){
+      alert(errors.join("\n"));
+      return false;
+    }
     return true;
   },
+  // Validate login form: need username/email plus password.
   login(form){
     const ident = form.identifier.value.trim();
     const validIdent = Validate.email(ident) || Validate.username(ident);
@@ -35,4 +55,5 @@ const Validate = {
     return true;
   }
 };
+// Expose the helper on window so forms can call it.
 window.Validate = Validate;

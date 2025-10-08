@@ -1,3 +1,4 @@
+<!-- Sidebar navigation that shows on every page -->
 <aside class="sidebar">
   <div class="sidebar-brand">
     <a href="/">
@@ -6,6 +7,7 @@
   </div>
 
   {{#if user}}
+    <!-- Logged in users see their profile here -->
     <a href="/account" class="sidebar-profile">
       <div class="sidebar-avatar">
         {{#if user.avatar_path}}
@@ -17,6 +19,7 @@
       <div class="sidebar-profile-meta">
         <p class="sidebar-profile-name">{{#if user.name}}{{user.name}}{{else}}{{displayName user}}{{/if}}</p>
         <p class="sidebar-profile-role {{#if (eq user.role "admin")}}role-admin{{else}}role-user{{/if}}">{{user.role}}</p>
+        <!-- Logout button sits under the profile -->
             <div class="sidebar-footer">
       <form method="POST" action="/auth/logout" class="sidebar-link-form">
         <button type="submit">Logout</button>
@@ -25,6 +28,7 @@
       </div>
     </a>
 
+    <!-- Regular navigation links -->
     <nav class="sidebar-section">
       <p class="sidebar-title">General</p>
       <a class="sidebar-link" href="/">Home</a>
@@ -32,12 +36,14 @@
       <a class="sidebar-link" href="/about">About</a>
       <a class="sidebar-link" href="/contact">Contact</a>
       {{#if (eq user.role "admin")}}
+        <!-- Admin extra link -->
         <a class="sidebar-link" href="/admin/users">Users</a>
       {{/if}}
     </nav>
 
 
   {{else}}
+    <!-- Guests just see login/register links -->
     <nav class="sidebar-section">
       <a class="sidebar-link" href="/login">Login</a>
       <a class="sidebar-link" href="/register">Register</a>

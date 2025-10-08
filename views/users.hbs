@@ -1,5 +1,7 @@
+<!-- Admin panel for creating and editing users -->
 <h1>Users List</h1>
 
+<!-- Quick form to add a new user account -->
 <section class="glass-card user-admin-card">
   <h2>Create New User</h2>
   <form method="POST" action="/admin/users" class="user-form">
@@ -46,6 +48,7 @@
   </form>
 </section>
 
+<!-- Editable table of every user -->
 <table class="table glass-card user-table">
   <thead>
     <tr>
@@ -104,7 +107,7 @@
         <td data-label="Created">{{created_at}}</td>
         <td data-label="Actions" class="actions">
           <div class="action-buttons">
-            <button form="user-{{id}}-form" class="btn btn-ghost" type="submit">Save</button>
+            <button form="user-{{id}}-form" class="btn btn-success" type="submit">Save</button>
             <form method="POST" action="/admin/users/{{id}}/delete" onsubmit="return confirm('Delete user {{username}}?')">
               <button class="btn btn-danger" type="submit">Delete</button>
             </form>

@@ -1,8 +1,11 @@
+<!-- Admin screen for handling team members -->
 <h1>Manage Team</h1>
 
+<!-- Form to add a brand new teammate -->
 <section class="glass-card admin-form">
   <h2>Add Team Member</h2>
-  <form method="POST" action="/admin/team" class="admin-form-grid">
+  <form method="POST" action="/admin/team" class="admin-form-grid" enctype="multipart/form-data">
+    <input type="hidden" name="redirect_to" value="/admin/team">
     <label>
       <span>Name</span>
       <input type="text" name="name" placeholder="Full name" required minlength="3">
@@ -16,8 +19,8 @@
       <textarea name="bio" placeholder="Short background" required minlength="10"></textarea>
     </label>
     <label>
-      <span>Avatar URL (optional)</span>
-      <input type="text" name="avatar_path" placeholder="https://example.com/avatar.jpg">
+      <span>Avatar Image (optional)</span>
+      <input type="file" name="avatar" accept="image/png,image/jpeg">
     </label>
     <div class="form-actions">
       <button class="btn" type="submit">Add Member</button>
@@ -26,10 +29,12 @@
 </section>
 
 {{#if members.length}}
+  <!-- Existing members listed for editing -->
   <section class="admin-card-grid">
     {{#each members}}
       <article class="glass-card admin-card">
-        <form method="POST" action="/admin/team/{{id}}/update" class="admin-card-form">
+        <form method="POST" action="/admin/team/{{id}}/update" class="admin-card-form" enctype="multipart/form-data">
+          <input type="hidden" name="redirect_to" value="/admin/team">
           <h3>{{name}}</h3>
           <label>
             <span>Name</span>
@@ -44,14 +49,21 @@
             <textarea name="bio" required>{{bio}}</textarea>
           </label>
           <label>
-            <span>Avatar URL</span>
-            <input type="text" name="avatar_path" value="{{avatar_path}}">
+            <span>Replace Avatar (optional)</span>
+            <input type="file" name="avatar" accept="image/png,image/jpeg">
           </label>
+          {{#if avatar_path}}
+            <label class="checkbox">
+              <input type="checkbox" name="remove_avatar" value="1">
+              <span>Remove current avatar</span>
+            </label>
+          {{/if}}
           <div class="action-buttons">
-            <button class="btn btn-ghost" type="submit">Save changes</button>
+            <button class="btn btn-success" type="submit">Save changes</button>
           </div>
         </form>
         <form method="POST" action="/admin/team/{{id}}/delete" onsubmit="return confirm('Remove {{name}} from the team?');">
+          <input type="hidden" name="redirect_to" value="/admin/team">
           <button class="btn btn-danger" type="submit">Delete</button>
         </form>
       </article>

@@ -1,3 +1,4 @@
+<!-- Listing page for workshops -->
 <header class="list-header">
   <div>
     <h1>Upcoming Workshops</h1>
@@ -6,9 +7,11 @@
 </header>
 
 {{#if (eq user.role "admin")}}
+  <!-- Admins can create new workshops straight from here -->
   <section class="glass-card admin-form">
     <h2>Create Workshop</h2>
     <form method="POST" action="/admin/workshops" class="admin-form-grid">
+      <input type="hidden" name="redirect_to" value="/list">
       <label>
         <span>Title</span>
         <input type="text" name="title" placeholder="Workshop title" required minlength="3">
@@ -45,11 +48,14 @@
 {{/if}}
 
 {{#if workshops.length}}
+  <!-- Show each workshop in a card -->
   <section class="workshops-grid">
     {{#each workshops}}
       <article class="workshop-card glass-card">
         {{#if (eq ../user.role "admin")}}
+          <!-- Admin edit form per workshop -->
           <form method="POST" action="/admin/workshops/{{id}}/update" class="admin-card-form">
+            <input type="hidden" name="redirect_to" value="/list">
             <div class="workshop-meta">
               <span>ID {{id}}</span>
               <span>{{start_date}}</span>
@@ -86,11 +92,12 @@
               </label>
             </div>
             <div class="action-buttons">
-              <button class="btn btn-ghost" type="submit">Save</button>
+              <button class="btn btn-success" type="submit">Save</button>
               <a class="btn" href="/list/{{slug}}">Preview</a>
             </div>
           </form>
           <form method="POST" action="/admin/workshops/{{id}}/delete" onsubmit="return confirm('Delete workshop {{title}}?');">
+            <input type="hidden" name="redirect_to" value="/list">
             <button class="btn btn-danger" type="submit">Delete</button>
           </form>
         {{else}}
@@ -98,7 +105,7 @@
             <span>{{start_date}}</span>
             <span>{{location}}</span>
           </div>
-          <h2>{{title}}</h2>
+         <h2>{{title}}</h2>
           <p>{{summary}}</p>
           <a class="btn btn-ghost" href="/list/{{slug}}">View details</a>
         {{/if}}
@@ -109,6 +116,7 @@
   <p>No workshops available yet.</p>
 {{/if}}
 
+<!-- Pager for workshop list -->
 <nav class="pagination" aria-label="Workshops pagination">
   {{#if pagination.hasPrev}}
     <a class="page-link" href="/list?page={{minus pagination.page 1}}" aria-label="Previous page">« Prev</a>

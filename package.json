@@ -7,8 +7,7 @@
   "scripts": {
     "start": "nodemon app.js",
     "dev": "node app.js",
-    "seed": "node db/seed.js",
-    "cleanup:primary": "node scripts/cleanup_primary.js"
+    "seed": "node db/seed.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

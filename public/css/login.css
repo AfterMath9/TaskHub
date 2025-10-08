@@ -1,1 +1,2 @@
+/* Keep the login card tall so the layout looks balanced */
 .auth-card, .auth-side{min-height:360px}

@@ -1,3 +1,5 @@
+
+
 const displayName = (input) => {
   if (!input) return "";
   if (typeof input === "string") return input;
@@ -15,6 +17,8 @@ const initials = (input) => {
     .toUpperCase()
     .slice(0, 2);
 };
+
+
 
 export const hbsHelpers = {
   eq: (a, b) => a === b,

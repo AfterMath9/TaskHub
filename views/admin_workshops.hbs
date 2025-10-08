@@ -1,8 +1,11 @@
+<!-- Admin dashboard for managing workshops -->
 <h1>Manage Workshops</h1>
 
+<!-- Form to add a brand new workshop -->
 <section class="glass-card admin-form">
   <h2>Create Workshop</h2>
   <form method="POST" action="/admin/workshops" class="admin-form-grid">
+    <input type="hidden" name="redirect_to" value="/admin/workshops">
     <label>
       <span>Title</span>
       <input type="text" name="title" placeholder="Workshop title" required minlength="3">
@@ -38,10 +41,12 @@
 </section>
 
 {{#if workshops.length}}
+  <!-- Existing workshops show up as editable cards -->
   <section class="admin-card-grid">
     {{#each workshops}}
       <article class="glass-card admin-card">
         <form method="POST" action="/admin/workshops/{{id}}/update" class="admin-card-form">
+          <input type="hidden" name="redirect_to" value="/admin/workshops">
           <h3>{{title}}</h3>
           <label>
             <span>Slug</span>
@@ -74,10 +79,11 @@
             </label>
           </div>
           <div class="action-buttons">
-            <button class="btn btn-ghost" type="submit">Save changes</button>
+            <button class="btn btn-success" type="submit">Save changes</button>
           </div>
         </form>
         <form method="POST" action="/admin/workshops/{{id}}/delete" onsubmit="return confirm('Delete workshop {{title}}?');">
+          <input type="hidden" name="redirect_to" value="/admin/workshops">
           <button class="btn btn-danger" type="submit">Delete</button>
         </form>
       </article>

@@ -1,6 +1,8 @@
+<!-- Registration page -->
 <h1>Sign Up</h1>
 <section class="auth-grid">
   <div class="auth-card glass-card">
+    <!-- Client validation runs before hitting the server -->
     <form method="POST" action="/auth/register" id="registerForm" onsubmit="return Validate.register(this);">
       <label>Full Name <span class="muted small">(optional)</span></label>
       <input type="text" name="name" placeholder="Alex Johnson" maxlength="60">

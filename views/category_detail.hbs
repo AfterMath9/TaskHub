@@ -1,5 +1,7 @@
+<!-- Simple category detail view -->
 <h1>Category: {{cat.name}}</h1>
 <p class="muted">Tasks in this category</p>
+<!-- Loop through every task for this category -->
 <ul class="task-list">
   {{#each tasks}}
     <li class="task {{#if completed}}done{{/if}}">

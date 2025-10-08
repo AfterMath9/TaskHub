@@ -1,3 +1,4 @@
+<!-- Account overview header -->
 <header class="account-header">
   <div class="avatar-preview">
     {{#if profile.avatar_path}}
@@ -14,7 +15,9 @@
   </div>
 </header>
 
+<!-- Two column layout: profile form and tips -->
 <section class="account-grid">
+  <!-- Main account form posts back to /account -->
   <form class="glass-card account-form" method="POST" action="/account" enctype="multipart/form-data">
     <h2>Profile</h2>
     <div class="form-row">
@@ -70,6 +73,7 @@
     </div>
   </form>
 
+  <!-- Helpful hints and avatar removal button -->
   <div class="glass-card account-help">
     <h2>Tips</h2>
     <ul>

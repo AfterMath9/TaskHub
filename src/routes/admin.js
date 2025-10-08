@@ -43,6 +43,8 @@ const teamUpload = multer({
 
 const usernamePattern = /^[a-zA-Z0-9_]{3,20}$/;
 const phonePattern = /^\+?\d{7,15}$/;
+const teamRedirectTargets = new Set(["/admin/team", "/about"]);
+const workshopRedirectTargets = new Set(["/admin/workshops", "/list"]);
 
 // Utility functions -------------------------------------------------------
 
@@ -64,6 +66,32 @@ function removeTeamAvatar(filePath) {
     : path.join(publicRoot, filePath.startsWith("/") ? filePath.slice(1) : filePath);
   if (!absolute.startsWith(publicRoot)) return;
   fs.promises.unlink(absolute).catch(() => {});
+}
+
+function resolveTeamRedirect(req, fallback = "/admin/team") {
+  let target = "";
+  if (req.body && typeof req.body.redirect_to === "string") {
+    target = req.body.redirect_to.trim();
+  }
+  if (teamRedirectTargets.has(target)) return target;
+
+  const referer = req.get("referer") || "";
+  if (referer.includes("/about")) return "/about";
+  if (referer.includes("/admin/team")) return "/admin/team";
+  return fallback;
+}
+
+function resolveWorkshopRedirect(req, fallback = "/admin/workshops") {
+  let target = "";
+  if (req.body && typeof req.body.redirect_to === "string") {
+    target = req.body.redirect_to.trim();
+  }
+  if (workshopRedirectTargets.has(target)) return target;
+
+  const referer = req.get("referer") || "";
+  if (referer.includes("/list")) return "/list";
+  if (referer.includes("/admin/workshops")) return "/admin/workshops";
+  return fallback;
 }
 
 async function ensureUniqueSlug(dbh, slug, ignoreId = null) {
@@ -244,7 +272,7 @@ router.post("/workshops", ensureAdmin, async (req, res) => {
   if (!location) errors.push("Location is required.");
   if (Number.isNaN(capacity) || capacity <= 0) errors.push("Capacity must be a positive number.");
 
-  const redirectTo = (req.get("referer") || "").includes("/list") ? "/list" : "/admin/workshops";
+  const redirectTo = resolveWorkshopRedirect(req);
 
   if (errors.length) {
     req.session.error = errors.join(" ");
@@ -270,7 +298,7 @@ router.post("/workshops/:id/update", ensureAdmin, async (req, res) => {
   const idNum = Number.parseInt(req.params.id, 10);
   if (Number.isNaN(idNum)) {
     req.session.error = "Invalid workshop id.";
-    return res.redirect((req.get("referer") || "").includes("/list") ? "/list" : "/admin/workshops");
+    return res.redirect(resolveWorkshopRedirect(req));
   }
   const dbh = await db;
   const title = (req.body.title || "").trim();
@@ -289,7 +317,7 @@ router.post("/workshops/:id/update", ensureAdmin, async (req, res) => {
   if (!location) errors.push("Location is required.");
   if (Number.isNaN(capacity) || capacity <= 0) errors.push("Capacity must be a positive number.");
 
-  const redirectTo = (req.get("referer") || "").includes("/list") ? "/list" : "/admin/workshops";
+  const redirectTo = resolveWorkshopRedirect(req);
 
   if (errors.length) {
     req.session.error = errors.join(" ");
@@ -322,13 +350,12 @@ router.post("/workshops/:id/delete", ensureAdmin, async (req, res) => {
   const idNum = Number.parseInt(req.params.id, 10);
   if (Number.isNaN(idNum)) {
     req.session.error = "Invalid workshop id.";
-    return res.redirect((req.get("referer") || "").includes("/list") ? "/list" : "/admin/workshops");
+    return res.redirect(resolveWorkshopRedirect(req));
   }
   const dbh = await db;
   await dbh.run("DELETE FROM workshops WHERE id = ?", [idNum]);
   req.session.success = "Workshop deleted.";
-  const redirectTo = (req.get("referer") || "").includes("/list") ? "/list" : "/admin/workshops";
-  res.redirect(redirectTo);
+  res.redirect(resolveWorkshopRedirect(req));
 });
 
 // ----- team management ---------------------------------------------------
@@ -344,13 +371,12 @@ router.post("/team", ensureAdmin, teamUpload.single("avatar"), async (req, res) 
   const name = (req.body.name || "").trim();
   const role = (req.body.role || "").trim();
   const bio = (req.body.bio || "").trim();
+  const redirectTo = resolveTeamRedirect(req);
 
   const errors = [];
   if (name.length < 3) errors.push("Name must be at least 3 characters.");
   if (role.length < 2) errors.push("Role must be at least 2 characters.");
   if (bio.length < 10) errors.push("Bio must be at least 10 characters.");
-
-  const redirectTo = (req.get("referer") || "").includes("/about") ? "/about" : "/admin/team";
 
   let avatarPath = null;
   if (req.file) {
@@ -380,19 +406,19 @@ router.post("/team/:id/update", ensureAdmin, teamUpload.single("avatar"), async 
   const idNum = Number.parseInt(req.params.id, 10);
   if (Number.isNaN(idNum)) {
     req.session.error = "Invalid team member id.";
-    return res.redirect((req.get("referer") || "").includes("/about") ? "/about" : "/admin/team");
+    return res.redirect(resolveTeamRedirect(req));
   }
   const dbh = await db;
   const name = (req.body.name || "").trim();
   const role = (req.body.role || "").trim();
   const bio = (req.body.bio || "").trim();
   const removeAvatar = req.body.remove_avatar === "1";
+  const redirectTo = resolveTeamRedirect(req);
 
   const errors = [];
   if (name.length < 3) errors.push("Name must be at least 3 characters.");
   if (role.length < 2) errors.push("Role must be at least 2 characters.");
   if (bio.length < 10) errors.push("Bio must be at least 10 characters.");
-  const redirectTo = (req.get("referer") || "").includes("/about") ? "/about" : "/admin/team";
 
   if (errors.length) {
     if (req.file) removeTeamAvatar(req.file.path);
@@ -437,16 +463,16 @@ router.post("/team/:id/update", ensureAdmin, teamUpload.single("avatar"), async 
 
 router.post("/team/:id/delete", ensureAdmin, async (req, res) => {
   const idNum = Number.parseInt(req.params.id, 10);
+  const redirectTo = resolveTeamRedirect(req);
   if (Number.isNaN(idNum)) {
     req.session.error = "Invalid team member id.";
-    return res.redirect((req.get("referer") || "").includes("/about") ? "/about" : "/admin/team");
+    return res.redirect(redirectTo);
   }
   const dbh = await db;
   const existing = await dbh.get("SELECT avatar_path FROM team_members WHERE id = ?", [idNum]);
   await dbh.run("DELETE FROM team_members WHERE id = ?", [idNum]);
   if (existing && existing.avatar_path) removeTeamAvatar(existing.avatar_path);
   req.session.success = "Team member removed.";
-  const redirectTo = (req.get("referer") || "").includes("/about") ? "/about" : "/admin/team";
   res.redirect(redirectTo);
 });
 
@@ -454,11 +480,11 @@ router.post("/team/:id/delete", ensureAdmin, async (req, res) => {
 router.use((err, req, res, next) => {
   if (err instanceof multer.MulterError && err.code === "LIMIT_FILE_SIZE") {
     req.session.error = "File too large. Max 4MB.";
-    return res.redirect((req.get("referer") || "") || "/admin/team");
+    return res.redirect(resolveTeamRedirect(req));
   }
   if (err && err.message && err.message.includes("Only PNG or JPG")) {
     req.session.error = err.message;
-    return res.redirect((req.get("referer") || "") || "/admin/team");
+    return res.redirect(resolveTeamRedirect(req));
   }
   next(err);
 });

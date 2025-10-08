@@ -1,3 +1,4 @@
+<!-- Main dashboard with admin tasks and personal tasks -->
 <section class="dashboard-grid">
   <section class="panel glass-card">
     <header class="panel-header">
@@ -6,6 +7,7 @@
     </header>
 
     {{#if primary.length}}
+      <!-- Loop through shared primary tasks -->
       <div class="task-line-stack">
         {{#each primary}}
           <details class="task-line {{#if completed}}task-line--done{{else}}task-line--progress{{/if}}">
@@ -21,6 +23,7 @@
                 </div>
               </div>
               {{#if (eq ../user.role "admin")}}
+                <!-- Admin can delete from here -->
                 <form method="POST" action="/tasks/{{id}}/delete" class="task-line-delete" onsubmit="return confirm('Delete {{title}}?');">
                   <button class="btn btn-outline" type="submit">Delete</button>
                 </form>
@@ -28,6 +31,7 @@
             </summary>
 
             {{#if (eq ../user.role "admin")}}
+              <!-- Admin edit form for each primary task -->
               <form method="POST" action="/tasks/{{id}}" class="task-line-form">
                 <label>Description
                   <textarea name="description">{{description}}</textarea>
@@ -78,6 +82,7 @@
     {{/if}}
   </section>
 
+  <!-- Personal task column -->
   <section class="panel glass-card">
     <header class="panel-header">
       <h2>My Tasks</h2>
@@ -85,6 +90,7 @@
     </header>
 
     <div class="stack-card">
+      <!-- Form for adding a new personal task -->
       <form method="POST" action="/tasks">
         <input type="text" name="title" placeholder="New task title" required>
         <textarea name="description" placeholder="Description (optional)"></textarea>
@@ -101,6 +107,7 @@
     {{#if mine.length}}
       <div class="task-line-stack">
         {{#each mine}}
+          <!-- Each of my tasks can be opened to edit -->
           <details class="task-line {{#if completed}}task-line--done{{else}}task-line--progress{{/if}}">
             <summary>
               <div class="task-line-info">
@@ -143,6 +150,7 @@
         {{/each}}
       </div>
 
+      <!-- Simple pager for personal tasks -->
       <div class="task-pagination">
         {{#if (gt pagination.page 1)}}
           <a class="btn btn-ghost" href="/?p={{minus pagination.page 1}}">Previous</a>

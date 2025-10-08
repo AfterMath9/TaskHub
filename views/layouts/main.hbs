@@ -3,17 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Show page title if one is passed in -->
   <title>{{#if title}}{{title}} · {{/if}}TaskHub</title>
+  <!-- Load the fonts and main styles everyone shares -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/global.css">
+  <!-- Some pages add extra css through this slot -->
   {{#if pageCss}}<link rel="stylesheet" href="{{pageCss}}">{{/if}}
   <script defer src="/js/Validate.js"></script>
 </head>
 <body>
+  <!-- Background video that sits behind everything -->
+  <video class="background-video" autoplay muted loop playsinline>
+    <source src="/assets/Wallpaper.mp4" type="video/mp4">
+  </video>
   <div class="app-shell">
+    <!-- Shared sidebar lives in a partial -->
     {{> sidebar}}
     <div class="app-content">
+      <!-- Flash messages show feedback to the user -->
       {{#if error}}<div class="flash flash-error">{{error}}</div>{{/if}}
       {{#if success}}<div class="flash flash-success">{{success}}</div>{{/if}}
+      <!-- Each page drops its HTML into this main block -->
       <main class="container glass-card">
         {{{body}}}
       </main>

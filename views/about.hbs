@@ -1,3 +1,4 @@
+<!-- Top intro with stats -->
 <section class="about-hero glass-card">
   <div>
     <h1>About TaskHub</h1>
@@ -15,6 +16,7 @@
   </div>
 </section>
 
+<!-- Team listing and admin tools -->
 <section class="team-section">
   <header class="team-header">
     <h2>Meet the team</h2>
@@ -22,9 +24,11 @@
   </header>
 
   {{#if (eq user.role "admin")}}
+    <!-- Admins can add new team members -->
     <section class="glass-card admin-form">
       <h3>Add Team Member</h3>
-      <form method="POST" action="/admin/team" class="admin-form-grid">
+      <form method="POST" action="/admin/team" class="admin-form-grid" enctype="multipart/form-data">
+        <input type="hidden" name="redirect_to" value="/about">
         <label>
           <span>Name</span>
           <input type="text" name="name" placeholder="Full name" required minlength="3">
@@ -38,8 +42,8 @@
           <textarea name="bio" placeholder="Short background" required minlength="10"></textarea>
         </label>
         <label>
-          <span>Avatar URL (optional)</span>
-          <input type="text" name="avatar_path" placeholder="/uploads/avatars/example.jpg or https://...">
+          <span>Avatar Image (optional)</span>
+          <input type="file" name="avatar" accept="image/png,image/jpeg">
         </label>
         <div class="form-actions">
           <button class="btn" type="submit">Add Member</button>
@@ -52,7 +56,9 @@
     {{#each team}}
       <article class="team-card glass-card">
         {{#if (eq ../user.role "admin")}}
-          <form method="POST" action="/admin/team/{{id}}/update" class="admin-card-form">
+          <!-- Admin edit form for each teammate -->
+          <form method="POST" action="/admin/team/{{id}}/update" class="admin-card-form" enctype="multipart/form-data">
+            <input type="hidden" name="redirect_to" value="/about">
             <div class="team-avatar">
               {{#if avatar_path}}
                 <img src="{{avatar_path}}" alt="{{name}}" />
@@ -73,17 +79,25 @@
               <textarea name="bio" required>{{bio}}</textarea>
             </label>
             <label>
-              <span>Avatar URL</span>
-              <input type="text" name="avatar_path" value="{{avatar_path}}">
+              <span>Replace Avatar (optional)</span>
+              <input type="file" name="avatar" accept="image/png,image/jpeg">
             </label>
+            {{#if avatar_path}}
+              <label class="checkbox">
+                <input type="checkbox" name="remove_avatar" value="1">
+                <span>Remove current avatar</span>
+              </label>
+            {{/if}}
             <div class="action-buttons">
-              <button class="btn btn-ghost" type="submit">Save</button>
+              <button class="btn btn-success" type="submit">Save</button>
             </div>
           </form>
           <form method="POST" action="/admin/team/{{id}}/delete" onsubmit="return confirm('Remove {{name}} from the team?');">
+            <input type="hidden" name="redirect_to" value="/about">
             <button class="btn btn-danger" type="submit">Delete</button>
           </form>
         {{else}}
+          <!-- Regular visitors just see the profile -->
           <div class="team-avatar">
             {{#if avatar_path}}
               <img src="{{avatar_path}}" alt="{{name}}" />
@@ -98,4 +112,26 @@
       </article>
     {{/each}}
   </div>
+  {{#if (gt teamPagination.pages 1)}}
+    <!-- Simple pagination for the team list -->
+    <nav class="pagination team-pagination">
+      {{#if teamPagination.hasPrev}}
+        <a class="page-link" href="/about?teamPage={{minus teamPagination.page 1}}">Previous</a>
+      {{else}}
+        <span class="page-link disabled">Previous</span>
+      {{/if}}
+      {{#each teamPagination.pageNumbers}}
+        {{#if (eq ../teamPagination.page this)}}
+          <span class="page-link active">{{this}}</span>
+        {{else}}
+          <a class="page-link" href="/about?teamPage={{this}}">{{this}}</a>
+        {{/if}}
+      {{/each}}
+      {{#if teamPagination.hasNext}}
+        <a class="page-link" href="/about?teamPage={{plus teamPagination.page 1}}">Next</a>
+      {{else}}
+        <span class="page-link disabled">Next</span>
+      {{/if}}
+    </nav>
+  {{/if}}
 </section>

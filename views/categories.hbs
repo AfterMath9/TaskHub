@@ -1,3 +1,4 @@
+<!-- Categories index list -->
 <header class="categories-header">
   <div>
     <h1>Categories</h1>
@@ -6,6 +7,7 @@
 </header>
 
 {{#if cats}}
+  <!-- Grid of category cards -->
   <section class="categories-grid">
     {{#each cats}}
       <article class="category-card glass-card">
@@ -19,6 +21,7 @@
   <p>No categories yet.</p>
 {{/if}}
 
+<!-- Pager for categories results -->
 <nav class="pagination" aria-label="Categories pagination">
   {{#if pagination.hasPrev}}
     <a class="page-link" href="/categories?page={{minus pagination.page 1}}" aria-label="Previous page">« Prev</a>

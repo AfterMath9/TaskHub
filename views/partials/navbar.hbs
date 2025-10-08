@@ -1,18 +1,22 @@
+<!-- Top navigation bar shown on pages that use it -->
 <nav class="nav glass-card">
   <div class="nav-left">
     <a class="brand" href="/">TaskHub</a>
     {{#if user}}
+      <!-- Links only show when someone is signed in -->
       <a href="/">Home</a>
       <a href="/list">List</a>
       <a href="/about">About</a>
       <a href="/contact">Contact</a>
       {{#if (eq user.role "admin")}}
+        <!-- Admin link to manage users -->
         <a href="/admin/users">Users</a>
       {{/if}}
     {{/if}}
   </div>
   <div class="nav-right">
     {{#if user}}
+      <!-- Logged in user info summary -->
       <a href="/account" class="nav-account">
         {{#if user.avatar_path}}
           <img src="{{user.avatar_path}}" alt="{{user.username}} avatar" class="nav-avatar">
@@ -28,6 +32,7 @@
         <button class="btn">Logout</button>
       </form>
     {{else}}
+      <!-- Guests get login/sign up buttons -->
       <a class="btn" href="/login">Login</a>
       <a class="btn btn-ghost" href="/register">Sign Up</a>
     {{/if}}
