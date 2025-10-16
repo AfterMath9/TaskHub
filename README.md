@@ -29,10 +29,13 @@ Database info
 
 Notes about tools I used
 ------------------------------
-- I used VS Code auto complete on some files and it helped when adding comments.
+- I have more than 5 tables, pagination, user managment system, hashed passwords and everything it asks about.
+- I used VS Code auto complete (with Copilot AI) on some files and it helped when adding comments.
 - I got a little help from AI for the database seeding logic and again when the CSS and UI styles.
+- I used Grid and flexbox for the responsiveness in the website to work on other devices.
+
 
 Extra tips
 ----------
 - Run `npm run seed` again if the database gets out of sync.
-- The `/public/assets` folder has the background wallpaper video used.
+- The `/public/assets` folder has the background wallpaper video used and an image iif needed to change it.
