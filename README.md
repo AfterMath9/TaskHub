@@ -35,7 +35,7 @@ Database info
 Notes about tools I used
 ------------------------------
 - The project includes more than five tables, pagination, a user management system, hashed passwords, and the other requested features.
-- I used VS Code autocomplete (with Copilot AI) on some files, which was helpful for adding comments.
+- I used VS Code autocomplete (with Copilot AI) on some files, which was helpful for adding comments to some files.
 - I relied on AI assistance for the database seeding logic and when refining the CSS and overall UI.
 - Grid and Flexbox ensure the layout is responsive across devices.
 
