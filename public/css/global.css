@@ -388,7 +388,7 @@ textarea{width:100%;padding:8px 10px;border-radius:10px;border:1px solid rgba(25
 .admin-form-grid input,
 .admin-form-grid textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.15);
   background:rgba(0,0,0,.3);color:var(--fg);}
-.admin-form-grid input[type="file"]{padding:8px 0;color:var(--muted)}
+.admin-form-grid input[type="file"]{color:var(--muted)}
 .admin-form-grid input[type="file"]::file-selector-button{
   background:linear-gradient(180deg, #a78bfa, #8b5cf6);
   color:white;border:none;border-radius:8px;padding:8px 12px;margin-right:12px;font-weight:600;cursor:pointer;
@@ -404,7 +404,7 @@ textarea{width:100%;padding:8px 10px;border-radius:10px;border:1px solid rgba(25
 .admin-card-form input,
 .admin-card-form textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.15);
   background:rgba(0,0,0,.3);color:var(--fg);}
-.admin-card-form input[type="file"]{padding:8px 0;color:var(--muted)}
+.admin-card-form input[type="file"]{color:var(--muted)}
 .admin-card-form input[type="file"]::file-selector-button{
   background:linear-gradient(180deg, #a78bfa, #8b5cf6);
   color:white;border:none;border-radius:8px;padding:8px 12px;margin-right:12px;font-weight:600;cursor:pointer;

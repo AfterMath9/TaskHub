@@ -23,6 +23,7 @@ Database info
 ---------------------
 - I added samples for workshops and team members so the requirements of 10 rows and 5 tables are covered right away after running the seed script.
 - The seed script can be re-run if you want to reset the data to the original state.
+- The credntials for admin login (admin / wdf#2025)
 
 Notes about tools I used
 ------------------------------
@@ -32,4 +33,4 @@ Notes about tools I used
 Extra tips
 ----------
 - Run `npm run seed` again if the database gets out of sync.
-- The `/public/assets` folder has the background wallpaper video the layout uses.
+- The `/public/assets` folder has the background wallpaper video used.
