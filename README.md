@@ -5,19 +5,21 @@ Run the app.
 --------------------------------
 1. Installing the dependencies:
    
-   npm install
+   npm install or npm i
    
 2. Seeding the database with data:
    
    npm run seed
    
-   This script creates the tables  and fills in the rows.
+   This script creates the tables  and fills in the rows with mock data.
 
 3. Starting the server:
    
    npm run dev
    
    The app runs at http://localhost:3000
+   port can be modified in app.js in line 82 
+   const PORT = process.env.PORT || 3000;
 
 Database info
 ---------------------
