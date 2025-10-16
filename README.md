@@ -1,5 +1,10 @@
 TaskHub Project
 =====================
+Student 1: Amrou Al Mfalani  
+Student 2: Abdelhamid MHD Amjad Darwish
+
+TaskHub is a to-do list application where users can register or log in to view primary tasks added by the admin or create their own personal tasks. They can also browse upcoming workshops with their assigned classrooms, review team members, upload images, and update their profile data.
+--------------------------------
 
 Run the app.
 --------------------------------
@@ -7,35 +12,35 @@ Run the app.
    
    npm install or npm i
    
-2. Seeding the database with data:
+2. Seeding the database with sample data:
    
    npm run seed
    
-   This script creates the tables  and fills in the rows with mock data.
+   This script creates the tables and populates them with mock data.
 
 3. Starting the server:
    
    npm run dev
    
    The app runs at http://localhost:3000
-   port can be modified in app.js in line 82 
+   Port can be modified in app.js on line 82 
    const PORT = process.env.PORT || 3000;
 
 Database info
 ---------------------
-- I added samples for workshops and team members so the requirements of 10 rows and 5 tables are covered right away after running the seed script.
-- The seed script can be re-run if you want to reset the data to the original state.
-- The credntials for admin login (admin / wdf#2025)
+- Sample data for workshops and team members ensures the 10-row, 5-table requirement is met immediately after running the seed script.
+- You can re-run the seed script at any time to reset the data to its original state.
+- Admin login credentials: (admin / wdf#2025)
 
 Notes about tools I used
 ------------------------------
-- I have more than 5 tables, pagination, user managment system, hashed passwords and everything it asks about.
-- I used VS Code auto complete (with Copilot AI) on some files and it helped when adding comments.
-- I got a little help from AI for the database seeding logic and again when the CSS and UI styles.
-- I used Grid and flexbox for the responsiveness in the website to work on other devices.
+- The project includes more than five tables, pagination, a user management system, hashed passwords, and the other requested features.
+- I used VS Code autocomplete (with Copilot AI) on some files, which was helpful for adding comments.
+- I relied on AI assistance for the database seeding logic and when refining the CSS and overall UI.
+- Grid and Flexbox ensure the layout is responsive across devices.
 
 
 Extra tips
 ----------
 - Run `npm run seed` again if the database gets out of sync.
-- The `/public/assets` folder has the background wallpaper video used and an image iif needed to change it.
+- The `/public/assets` folder contains the background wallpaper video and an image if you want to swap them out.
